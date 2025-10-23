@@ -21,19 +21,6 @@ from PyQt5.QtWidgets import QApplication, QMessageBox
 from src import Sortopus, MainWindow, Config
 
 CONFIG_FILENAME = "config.json"
-SUPPORTED_EXTS = ('.jpg', '.jpeg', '.JPG', '.JPEG', '.png')  # dozwolone rozszerzenia
-
-
-
-
-
-def find_images_recursively(root: Path) -> List[Path]:
-    results = []
-    for p in root.rglob('*'):
-        if p.suffix.lower() in SUPPORTED_EXTS and p.is_file():
-            results.append(p)
-    results.sort()
-    return results
 
 def main():
     app = QApplication(sys.argv)

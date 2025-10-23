@@ -3,6 +3,8 @@ import json
 from pathlib import Path
 from typing import List, Dict, Optional
 
+from . import Files
+
 LIST_FILENAME = "list.txt"
 
 class Sortopus:
@@ -43,7 +45,7 @@ class Sortopus:
                 raise RuntimeError(f'List cannot be read {self.list_file}: {e}')
         else:
             # skanuj katalog główny
-            images = find_images_recursively(self.main_dir)
+            images = Files.Files().find_images_recursively(self.main_dir)
             self.items = []
             for p in images:
                 self.items.append({'path': str(p), 'status': 0})

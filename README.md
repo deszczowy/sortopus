@@ -5,7 +5,7 @@ The weapon of choice for everyone who is flooded with photos. Gather all files, 
 
 ## Configuration
 
-Create a config file named `config.json` next to `sortopus.py` and fill it before running application with data shown below. It is version 0.01, remember? All paths should be absolute.
+Create a config file named `config.json` next to `sortopus.py` and fill it before running application with data shown below. It is very early version, remember? All paths should be absolute.
 
 ```
 {

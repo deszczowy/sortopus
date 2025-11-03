@@ -1,5 +1,7 @@
 # The Sortopus: Unstoppable photos sorting machine!
-<img align="right" src="src/gfx/octo.png"> The weapon of choice for everyone who is flooded with photos. Gather all files, configure the tool, then make yourself comfortable and just sort it out. It is version 0.01, so go easy on me. It works, that's important! Application will present You all your pictures, one by one, each with options to leave it where it is, delete it, or move into one of two optional directories.
+<img align="right" src="src/gfx/octo.png" width="150"> version 0.02
+
+The weapon of choice for everyone who is flooded with photos. Gather all files, configure the tool, then make yourself comfortable and just sort it out. It is version 0.02, so go easy on me. It works, that's important! Application will present You all your pictures, one by one, each with options to leave it where it is, delete it, or move into one of two optional directories.
 
 ## Configuration
 
@@ -13,6 +15,8 @@ Create a config file named `config.json` next to `sortopus.py` and fill it befor
   "defer1_label": "First Custom Action Button Label",
   "defer2_dir": "/second/custom/move/directory",
   "defer2_label": "Second Custom Action Button Label"
+  "defer3_dir": "/third/custom/move/directory",
+  "defer3_label": "Third Custom Action Button Label"
 }
 ```
 
@@ -22,7 +26,7 @@ Create a config file named `config.json` next to `sortopus.py` and fill it befor
 
 ### Rest is optional
 
-Define `defer1_dir` and `defer2_dir` if You want other options for moving files. For example create directory for Portraits and Landscapes, put the words "Portrait" and "Landscape" into `defer1_label` and `defer2_label` fields respectively and You will get two labeled buttons! Now You can leave a photo, move to portraits, move to landscapes or delete!
+Define `defer{X}_dir` and if You want other options for moving files. For example create directory for Portraits, Landscapes and Documents, put the words "Portrait", "Landscape" and "Document" into `defer1_label`, `defer2_label` and `defer3_label` fields respectively and You will get three labeled buttons! Now You can leave a photo, move to portraits, move to landscapes, move tp documents or delete!
 
 ## How it works
 

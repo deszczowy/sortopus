@@ -29,6 +29,7 @@ class MainWindow(QWidget):
         self.btn_leave = QPushButton('Leave here')
         self.btn_defer1 = QPushButton(self.sorter.defer1_label)
         self.btn_defer2 = QPushButton(self.sorter.defer2_label)
+        self.btn_defer3 = QPushButton(self.sorter.defer3_label)
         self.btn_delete = QPushButton('Delete')
         self.btn_next = QPushButton('Next')
 
@@ -36,6 +37,7 @@ class MainWindow(QWidget):
         self.btn_leave.clicked.connect(self.on_leave)
         self.btn_defer1.clicked.connect(self.on_defer1)
         self.btn_defer2.clicked.connect(self.on_defer2)
+        self.btn_defer3.clicked.connect(self.on_defer3)
         self.btn_delete.clicked.connect(self.on_delete)
         self.btn_next.clicked.connect(self.on_next)
 
@@ -45,6 +47,7 @@ class MainWindow(QWidget):
         btn_layout.addWidget(self.btn_leave)
         btn_layout.addWidget(self.btn_defer1)
         btn_layout.addWidget(self.btn_defer2)
+        btn_layout.addWidget(self.btn_defer3)
         btn_layout.addWidget(self.btn_delete)
         btn_layout.addWidget(self.btn_next)
         btn_layout.addStretch()
@@ -148,6 +151,9 @@ class MainWindow(QWidget):
 
     def on_defer2(self):
         self.move_and_next(self.sorter.defer2_dir, 2)
+
+    def on_defer3(self):
+        self.move_and_next(self.sorter.defer3_dir, 2)
 
     def on_delete(self):
         # przenieś do katalogu usuniętych i ustaw status 3

@@ -31,12 +31,13 @@ ICON1 = """<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 
 class OButton(QPushButton):
 
-    def __init__(self, id: int, button_caption: str, parameter_path: str, button_icon: Icon, action: Callable[[], None] = None, shortcut: QKeySequence = None) -> None:
+    def __init__(self, id: int, button_caption: str, parameter_path: str, button_icon: Icon, hint: str = "", action: Callable[[], None] = None, shortcut: QKeySequence = None) -> None:
         super().__init__(f" {button_caption}")
         self.Id = id
         self.MovePath: Path = Path(parameter_path)
         self.icon = button_icon
         self.shortcut = None
+        self.setup_hint(hint)
         self.create()
         self.connect(action, shortcut)
     
@@ -70,3 +71,22 @@ class OButton(QPushButton):
 
         self.setStyleSheet("border:0px")
         self.setIcon(icon)
+    
+    def setup_hint(self, hint):
+        self.hint = ""
+        if hint == "":
+            self.hint = f"Move photo to {self.MovePath}"
+        else:
+            self.hint = hint
+
+    def enterEvent(self, event):
+        if self.parent():
+            hinter: QLabel = self.parent().hint_label
+            hinter.setText(self.hint)
+        super().enterEvent(event)
+
+    def leaveEvent(self, event):
+        if self.parent():
+            hinter: QLabel = self.parent().hint_label
+            hinter.clear()
+        super().leaveEvent(event)

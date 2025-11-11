@@ -28,6 +28,10 @@ class MainWindow(QWidget):
         self.image_label = QLabel()
         self.image_label.setAlignment(Qt.AlignCenter)
         self.image_label.setStyleSheet('background-color: #222; color: #fff;')
+        self.info_label = QLabel('')
+        self.info_label.setAlignment(Qt.AlignCenter)
+        self.hint_label = QLabel('')
+        self.hint_label.setAlignment(Qt.AlignCenter)
         self.status_label = QLabel('')
         self.status_label.setAlignment(Qt.AlignCenter)
         self.setStyleSheet('QPushButton{width: 100px; height: 25px; }')
@@ -36,8 +40,8 @@ class MainWindow(QWidget):
         btn_layout = QHBoxLayout()
         btn_layout.addStretch()
 
-        self.btn_prev = Button.OButton(99, 'Previous', "", Button.Icon.ICON1, self.on_prev, QKeySequence(Qt.Key_Left))
-        self.btn_leave = Button.OButton(99, "Leave here", "", Button.Icon.ICON1, self.on_leave, QKeySequence("Q"))
+        self.btn_prev = Button.OButton(99, 'Previous', "", Button.Icon.ICON1, "Show previous picture", self.on_prev, QKeySequence(Qt.Key_Left))
+        self.btn_leave = Button.OButton(99, "Leave here", "", Button.Icon.ICON1,  "Leave photo where it is now", self.on_leave, QKeySequence("Q"))
 
         
         btn_layout.addWidget(self.btn_prev)
@@ -46,12 +50,12 @@ class MainWindow(QWidget):
         id = 0
         for action in sorter.actions:
             btn_layout.addWidget(
-                Button.OButton(id, action.label, action.dir, Button.Icon.ICON1, self.on_defer_default, QKeySequence("1"))
+                Button.OButton(id, action.label, action.dir, Button.Icon.ICON1, "", self.on_defer_default, QKeySequence("1"))
             )
             id += 1
         
-        self.btn_delete = Button.OButton(99, "Delete", "", Button.Icon.ICON1, self.on_delete, QKeySequence("Delete"))
-        self.btn_next = Button.OButton(99, "Next", "", Button.Icon.ICON1, self.on_next, QKeySequence(Qt.Key_Right))
+        self.btn_delete = Button.OButton(99, "Delete", "", Button.Icon.ICON1, "Remove photo", self.on_delete, QKeySequence("Delete"))
+        self.btn_next = Button.OButton(99, "Next", "", Button.Icon.ICON1, "Show next picture", self.on_next, QKeySequence(Qt.Key_Right))
 
         btn_layout.addWidget(self.btn_delete)
         btn_layout.addWidget(self.btn_next)
@@ -59,8 +63,10 @@ class MainWindow(QWidget):
 
         layout = QVBoxLayout()
         layout.addWidget(self.image_label, stretch=1)
+        layout.addWidget(self.info_label)
         layout.addWidget(self.status_label)
         layout.addLayout(btn_layout)
+        layout.addWidget(self.hint_label)
 
         self.setLayout(layout)
 
@@ -107,6 +113,7 @@ class MainWindow(QWidget):
                 lbl_h = max(10, self.image_label.height())
                 scaled = pix.scaled(lbl_w, lbl_h, Qt.KeepAspectRatio, Qt.SmoothTransformation)
                 self.image_label.setPixmap(scaled)
+                self.info_label.setText(path.stem)
         else:
             # plik nie istnieje — wyczyść pixmap i napisz info
             self.image_label.setPixmap(QPixmap())

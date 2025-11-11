@@ -4,6 +4,7 @@ from PyQt5.QtCore import QByteArray, Qt
 from PyQt5.QtSvg import QSvgRenderer
 from enum import IntEnum
 from typing import Callable
+from pathlib import Path
 
 class Icon(IntEnum):
     ICON1 = 1
@@ -30,8 +31,10 @@ ICON1 = """<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 
 class OButton(QPushButton):
 
-    def __init__(self, button_caption: str, button_icon: Icon, action: Callable[[], None] = None, shortcut: QKeySequence = None) -> None:
+    def __init__(self, id: int, button_caption: str, parameter_path: str, button_icon: Icon, action: Callable[[], None] = None, shortcut: QKeySequence = None) -> None:
         super().__init__(f" {button_caption}")
+        self.Id = id
+        self.MovePath: Path = Path(parameter_path)
         self.icon = button_icon
         self.shortcut = None
         self.create()

@@ -33,21 +33,26 @@ class MainWindow(QWidget):
         self.setStyleSheet('QPushButton{width: 100px; height: 25px; }')
 
         # przyciski
-        self.btn_prev = Button.OButton('Previous', Button.Icon.ICON1, self.on_prev, QKeySequence(Qt.Key_Left))
-        self.btn_leave = Button.OButton("Leave here", Button.Icon.ICON1, self.on_leave, QKeySequence("Q"))
-        self.btn_defer1 = Button.OButton(self.sorter.defer1_label, Button.Icon.ICON1, self.on_defer1, QKeySequence("1"))
-        self.btn_defer2 = Button.OButton(self.sorter.defer2_label, Button.Icon.ICON1, self.on_defer2, QKeySequence("2"))
-        self.btn_defer3 = Button.OButton(self.sorter.defer3_label, Button.Icon.ICON1, self.on_defer3, QKeySequence("3"))
-        self.btn_delete = Button.OButton("Delete", Button.Icon.ICON1, self.on_delete, QKeySequence("Delete"))
-        self.btn_next = Button.OButton("Next", Button.Icon.ICON1, self.on_next, QKeySequence(Qt.Key_Right))
-
         btn_layout = QHBoxLayout()
         btn_layout.addStretch()
+
+        self.btn_prev = Button.OButton(99, 'Previous', "", Button.Icon.ICON1, self.on_prev, QKeySequence(Qt.Key_Left))
+        self.btn_leave = Button.OButton(99, "Leave here", "", Button.Icon.ICON1, self.on_leave, QKeySequence("Q"))
+
+        
         btn_layout.addWidget(self.btn_prev)
         btn_layout.addWidget(self.btn_leave)
-        btn_layout.addWidget(self.btn_defer1)
-        btn_layout.addWidget(self.btn_defer2)
-        btn_layout.addWidget(self.btn_defer3)
+
+        id = 0
+        for action in sorter.actions:
+            btn_layout.addWidget(
+                Button.OButton(id, action.label, action.dir, Button.Icon.ICON1, self.on_defer_default, QKeySequence("1"))
+            )
+            id += 1
+        
+        self.btn_delete = Button.OButton(99, "Delete", "", Button.Icon.ICON1, self.on_delete, QKeySequence("Delete"))
+        self.btn_next = Button.OButton(99, "Next", "", Button.Icon.ICON1, self.on_next, QKeySequence(Qt.Key_Right))
+
         btn_layout.addWidget(self.btn_delete)
         btn_layout.addWidget(self.btn_next)
         btn_layout.addStretch()
@@ -83,7 +88,7 @@ class MainWindow(QWidget):
         self.update_status_label()
 
     def set_buttons_enabled(self, enabled: bool):
-        for b in (self.btn_prev, self.btn_leave, self.btn_defer1, self.btn_defer2, self.btn_delete, self.btn_next):
+        for b in (self.btn_prev, self.btn_leave): #, self.btn_defer1, self.btn_defer2, self.btn_delete, self.btn_next):
             b.setEnabled(enabled)
 
     def update_image_display(self):
@@ -145,15 +150,10 @@ class MainWindow(QWidget):
         if idx < len(self.sorter.items) - 1:
             self.sorter.current_index = idx + 1
         self.update_ui()
-
-    def on_defer1(self):
-        self.move_and_next(self.sorter.defer1_dir, 2)
-
-    def on_defer2(self):
-        self.move_and_next(self.sorter.defer2_dir, 2)
-
-    def on_defer3(self):
-        self.move_and_next(self.sorter.defer3_dir, 2)
+    
+    def on_defer_default(self):
+        button: OButton = self.sender()
+        self.move_and_next(button.MovePath, 2)
 
     def on_delete(self):
         # przenieś do katalogu usuniętych i ustaw status 3

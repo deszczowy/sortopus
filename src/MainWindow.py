@@ -18,6 +18,7 @@ from PyQt5.QtGui import (
 from PyQt5.QtCore import Qt
 
 from . import Sortopus
+from . import Button
 
 class MainWindow(QWidget):
     def __init__(self, sorter: Sortopus):
@@ -33,7 +34,7 @@ class MainWindow(QWidget):
 
         # przyciski
         self.btn_prev = QPushButton('Previous')
-        self.btn_leave = QPushButton('Leave here')
+        self.btn_leave = Button.create_icon_button(1, "Leave here") # QPushButton('Leave here')
         self.btn_defer1 = QPushButton(self.sorter.defer1_label)
         self.btn_defer2 = QPushButton(self.sorter.defer2_label)
         self.btn_defer3 = QPushButton(self.sorter.defer3_label)

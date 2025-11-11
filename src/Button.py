@@ -3,6 +3,7 @@ from PyQt5.QtGui import QIcon, QPixmap, QPainter
 from PyQt5.QtCore import QByteArray, Qt
 from PyQt5.QtSvg import QSvgRenderer
 from enum import IntEnum
+from typing import Callable
 
 class Icon(IntEnum):
     ICON1 = 1
@@ -27,36 +28,39 @@ ICON1 = """<?xml version="1.0" encoding="UTF-8" standalone="no"?>
        ry="0.5" />
 </svg>"""
 
-#class ButtonGenerator:
+class ButtonGenerator:
 
-#    def __init__(self, caption: str)
-
-def create_icon_button(icon: Icon, label: str) -> QPushButton:
-    """
-    Tworzy QPushButton z ikoną SVG o podanym numerze i etykietą.
+    def __init__(self, button_caption: str, button_icon: Icon, action: Callable[[], None] = None) -> None:
+        self.caption = button_caption
+        self.icon = button_icon
+        self.on_click = action
     
-    :param icon: wartosc enuma
-    :param label: tekst etykiety przycisku
-    :return: skonfigurowany QPushButton
-    """
-    icon_number = icon.value
-    icon_const_name = f"ICON{icon_number}"
-    svg_data = globals().get(icon_const_name)
-    if svg_data is None:
-        raise ValueError(f"Ikona o numerze {icon_number} nie istnieje w module icons.py")
-    
-    byte_array = QByteArray(svg_data.encode('utf-8'))
-    renderer = QSvgRenderer(byte_array)
-    
-    icon = QIcon()
-    for size in (16, 24, 32):
-        pixmap = QPixmap(size, size)
-        pixmap.fill(Qt.transparent)
-        painter = QPainter(pixmap)
-        renderer.render(painter)
-        painter.end()
-        icon.addPixmap(pixmap, QIcon.Normal)
-    
-    button = QPushButton(label)
-    button.setIcon(icon)
-    return button
+    def create(self) -> QPushButton:
+        """
+        Tworzy QPushButton z ikoną SVG o podanym numerze i etykietą.
+        
+        :param icon: wartosc enuma
+        :param label: tekst etykiety przycisku
+        :return: skonfigurowany QPushButton
+        """
+        icon_number = self.icon.value
+        icon_const_name = f"ICON{icon_number}"
+        svg_data = globals().get(icon_const_name)
+        if svg_data is None:
+            raise ValueError(f"Ikona o numerze {icon_number} nie istnieje w module icons.py")
+        
+        byte_array = QByteArray(svg_data.encode('utf-8'))
+        renderer = QSvgRenderer(byte_array)
+        
+        icon = QIcon()
+        for size in (16, 24, 32):
+            pixmap = QPixmap(size, size)
+            pixmap.fill(Qt.transparent)
+            painter = QPainter(pixmap)
+            renderer.render(painter)
+            painter.end()
+            icon.addPixmap(pixmap, QIcon.Normal)
+        
+        button = QPushButton(self.caption)
+        button.setIcon(icon)
+        return button

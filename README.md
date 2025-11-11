@@ -11,12 +11,10 @@ Create a config file named `config.json` next to `sortopus.py` and fill it befor
 {
   "main_dir": "/main/photo/search/directory",
   "deleted_dir": "/directory/to/store/deleted/files",
-  "defer1_dir": "/first/custom/move/directory",
-  "defer1_label": "First Custom Action Button Label",
-  "defer2_dir": "/second/custom/move/directory",
-  "defer2_label": "Second Custom Action Button Label"
-  "defer3_dir": "/third/custom/move/directory",
-  "defer3_label": "Third Custom Action Button Label"
+  "actions": [
+    { "dir": "/first/custom/move/directory", "label": "First Custom Action Button Label" },
+    { "dir": "/second/custom/move/directory", "label": "Second Custom Action Button Label" }
+  ]
 }
 ```
 
@@ -26,11 +24,21 @@ Create a config file named `config.json` next to `sortopus.py` and fill it befor
 
 ### Rest is optional
 
-Define `defer{X}_dir` and if You want other options for moving files. For example create directory for Portraits, Landscapes and Documents, put the words "Portrait", "Landscape" and "Document" into `defer1_label`, `defer2_label` and `defer3_label` fields respectively and You will get three labeled buttons! Now You can leave a photo, move to portraits, move to landscapes, move tp documents or delete!
+Define `actions` list if You want other options for moving files. Every `actions` element is an object with path to move photos (`dir`) and a label (`label`) for custom button.
 
 ## How it works
 
 Program will read root path recursively looking for `*.jpg` files. All necessary data will be stored into `list.txt` file in root folder. On startup You will start with first unsorted photo. If You want to restart all process just remove `list.txt` from root directory. Restarting will not restore moved photos - what is done, is done.
+
+## Shortcuts
+
+`Q` for leave photo where it is
+
+`1`, `2`, `3` for moving photo into one of configured places
+
+`Delete` sounds selfexplanatory
+
+`Left arrow` and `Right arrow` swithes to previous or next photo
 
 ## How to run
 

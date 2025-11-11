@@ -31,7 +31,7 @@ ICON1 = """<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 class OButton(QPushButton):
 
     def __init__(self, button_caption: str, button_icon: Icon, action: Callable[[], None] = None, shortcut: QKeySequence = None) -> None:
-        super().__init__(button_caption)
+        super().__init__(f" {button_caption}")
         self.icon = button_icon
         self.shortcut = None
         self.create()

@@ -33,22 +33,13 @@ class MainWindow(QWidget):
         self.setStyleSheet('QPushButton{width: 100px; height: 25px; }')
 
         # przyciski
-        self.btn_prev = QPushButton('Previous')
-        self.btn_leave = Button.OButton("Leave here", Button.Icon.ICON1, self.on_leave, QKeySequence("Q")) # QPushButton('Leave here')
-        self.btn_defer1 = QPushButton(self.sorter.defer1_label)
-        self.btn_defer2 = QPushButton(self.sorter.defer2_label)
-        self.btn_defer3 = QPushButton(self.sorter.defer3_label)
-        self.btn_delete = QPushButton('Delete')
-        self.btn_next = QPushButton('Next')
-
-        self.btn_prev.clicked.connect(self.on_prev)
-        # self.btn_leave.clicked.connect()
-        self.btn_defer1.clicked.connect(self.on_defer1)
-        self.btn_defer2.clicked.connect(self.on_defer2)
-        self.btn_defer3.clicked.connect(self.on_defer3)
-        self.btn_delete.clicked.connect(self.on_delete)
-        self.btn_next.clicked.connect(self.on_next)
-        self.create_shortcuts()
+        self.btn_prev = Button.OButton('Previous', Button.Icon.ICON1, self.on_prev, QKeySequence(Qt.Key_Left))
+        self.btn_leave = Button.OButton("Leave here", Button.Icon.ICON1, self.on_leave, QKeySequence("Q"))
+        self.btn_defer1 = Button.OButton(self.sorter.defer1_label, Button.Icon.ICON1, self.on_defer1, QKeySequence("1"))
+        self.btn_defer2 = Button.OButton(self.sorter.defer2_label, Button.Icon.ICON1, self.on_defer2, QKeySequence("2"))
+        self.btn_defer3 = Button.OButton(self.sorter.defer3_label, Button.Icon.ICON1, self.on_defer3, QKeySequence("3"))
+        self.btn_delete = Button.OButton("Delete", Button.Icon.ICON1, self.on_delete, QKeySequence("Delete"))
+        self.btn_next = Button.OButton("Next", Button.Icon.ICON1, self.on_next, QKeySequence(Qt.Key_Right))
 
         btn_layout = QHBoxLayout()
         btn_layout.addStretch()
@@ -69,25 +60,6 @@ class MainWindow(QWidget):
         self.setLayout(layout)
 
         self.update_ui()
-    
-    def create_shortcuts(self):
-        # Definitions
-        self.shortPrevious = QShortcut(QKeySequence(Qt.Key_Left), self)
-        # self.shortLeave = QShortcut(QKeySequence("Q"), self)
-        self.shortMove1 = QShortcut(QKeySequence("1"), self)
-        self.shortMove2 = QShortcut(QKeySequence("2"), self)
-        self.shortMove3 = QShortcut(QKeySequence("3"), self)
-        self.shortDelete = QShortcut(QKeySequence("Delete"), self)
-        self.shortNext = QShortcut(QKeySequence(Qt.Key_Right), self)
-
-        # Bindings
-        self.shortPrevious.activated.connect(self.on_prev)
-        # self.shortLeave.activated.connect(self.on_leave)
-        self.shortMove1.activated.connect(self.on_defer1)
-        self.shortMove2.activated.connect(self.on_defer2)
-        self.shortMove3.activated.connect(self.on_defer3)
-        self.shortDelete.activated.connect(self.on_delete)
-        self.shortNext.activated.connect(self.on_next)
 
     def resizeEvent(self, event):
         super().resizeEvent(event)

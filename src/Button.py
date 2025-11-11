@@ -1,5 +1,5 @@
-from PyQt5.QtWidgets import QPushButton
-from PyQt5.QtGui import QIcon, QPixmap, QPainter
+from PyQt5.QtWidgets import QPushButton, QShortcut
+from PyQt5.QtGui import QIcon, QPixmap, QPainter, QKeySequence
 from PyQt5.QtCore import QByteArray, Qt
 from PyQt5.QtSvg import QSvgRenderer
 from enum import IntEnum
@@ -30,15 +30,20 @@ ICON1 = """<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 
 class OButton(QPushButton):
 
-    def __init__(self, button_caption: str, button_icon: Icon, action: Callable[[], None] = None) -> None:
+    def __init__(self, button_caption: str, button_icon: Icon, action: Callable[[], None] = None, shortcut: QKeySequence = None) -> None:
         super().__init__(button_caption)
         self.icon = button_icon
+        self.shortcut = None
         self.create()
-        self.connect(action)
+        self.connect(action, shortcut)
     
-    def connect(self, action: Callable[[], None]) -> None:
+    def connect(self, action: Callable[[], None], shortcut_sequence: QKeySequence = None) -> None:
         if action != None:
             self.clicked.connect(action)
+            
+            if shortcut_sequence != None:
+                self.shortcut = QShortcut(shortcut_sequence, self)
+                self.shortcut.activated.connect(action)
     
     def create(self) -> None:
 
@@ -59,8 +64,6 @@ class OButton(QPushButton):
             renderer.render(painter)
             painter.end()
             icon.addPixmap(pixmap, QIcon.Normal)
-        
-        #self.setText(self.caption)
+
         self.setStyleSheet("border:0px")
         self.setIcon(icon)
-        #return self.button

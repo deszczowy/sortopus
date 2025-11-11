@@ -34,7 +34,7 @@ class MainWindow(QWidget):
 
         # przyciski
         self.btn_prev = QPushButton('Previous')
-        self.btn_leave = Button.OButton("Leave here", Button.Icon.ICON1, self.on_leave) # QPushButton('Leave here')
+        self.btn_leave = Button.OButton("Leave here", Button.Icon.ICON1, self.on_leave, QKeySequence("Q")) # QPushButton('Leave here')
         self.btn_defer1 = QPushButton(self.sorter.defer1_label)
         self.btn_defer2 = QPushButton(self.sorter.defer2_label)
         self.btn_defer3 = QPushButton(self.sorter.defer3_label)
@@ -73,7 +73,7 @@ class MainWindow(QWidget):
     def create_shortcuts(self):
         # Definitions
         self.shortPrevious = QShortcut(QKeySequence(Qt.Key_Left), self)
-        self.shortLeave = QShortcut(QKeySequence("Q"), self)
+        # self.shortLeave = QShortcut(QKeySequence("Q"), self)
         self.shortMove1 = QShortcut(QKeySequence("1"), self)
         self.shortMove2 = QShortcut(QKeySequence("2"), self)
         self.shortMove3 = QShortcut(QKeySequence("3"), self)
@@ -82,7 +82,7 @@ class MainWindow(QWidget):
 
         # Bindings
         self.shortPrevious.activated.connect(self.on_prev)
-        self.shortLeave.activated.connect(self.on_leave)
+        # self.shortLeave.activated.connect(self.on_leave)
         self.shortMove1.activated.connect(self.on_defer1)
         self.shortMove2.activated.connect(self.on_defer2)
         self.shortMove3.activated.connect(self.on_defer3)

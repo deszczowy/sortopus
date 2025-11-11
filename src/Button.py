@@ -2,6 +2,12 @@ from PyQt5.QtWidgets import QPushButton
 from PyQt5.QtGui import QIcon, QPixmap, QPainter
 from PyQt5.QtCore import QByteArray, Qt
 from PyQt5.QtSvg import QSvgRenderer
+from enum import IntEnum
+
+class Icon(IntEnum):
+    ICON1 = 1
+    ICON2 = 2
+    ICON3 = 3
 
 ICON1 = """<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <svg
@@ -21,14 +27,19 @@ ICON1 = """<?xml version="1.0" encoding="UTF-8" standalone="no"?>
        ry="0.5" />
 </svg>"""
 
-def create_icon_button(icon_number: int, label: str) -> QPushButton:
+#class ButtonGenerator:
+
+#    def __init__(self, caption: str)
+
+def create_icon_button(icon: Icon, label: str) -> QPushButton:
     """
     Tworzy QPushButton z ikoną SVG o podanym numerze i etykietą.
     
-    :param icon_number: numer ikony (1, 2, ...)
+    :param icon: wartosc enuma
     :param label: tekst etykiety przycisku
     :return: skonfigurowany QPushButton
     """
+    icon_number = icon.value
     icon_const_name = f"ICON{icon_number}"
     svg_data = globals().get(icon_const_name)
     if svg_data is None:

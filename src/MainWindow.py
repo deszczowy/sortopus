@@ -34,7 +34,7 @@ class MainWindow(QWidget):
 
         # przyciski
         self.btn_prev = QPushButton('Previous')
-        self.btn_leave = Button.ButtonGenerator("Leave here", Button.Icon.ICON1).create() # QPushButton('Leave here')
+        self.btn_leave = Button.OButton("Leave here", Button.Icon.ICON1, self.on_leave) # QPushButton('Leave here')
         self.btn_defer1 = QPushButton(self.sorter.defer1_label)
         self.btn_defer2 = QPushButton(self.sorter.defer2_label)
         self.btn_defer3 = QPushButton(self.sorter.defer3_label)
@@ -42,7 +42,7 @@ class MainWindow(QWidget):
         self.btn_next = QPushButton('Next')
 
         self.btn_prev.clicked.connect(self.on_prev)
-        self.btn_leave.clicked.connect(self.on_leave)
+        # self.btn_leave.clicked.connect()
         self.btn_defer1.clicked.connect(self.on_defer1)
         self.btn_defer2.clicked.connect(self.on_defer2)
         self.btn_defer3.clicked.connect(self.on_defer3)

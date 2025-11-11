@@ -28,21 +28,20 @@ ICON1 = """<?xml version="1.0" encoding="UTF-8" standalone="no"?>
        ry="0.5" />
 </svg>"""
 
-class ButtonGenerator:
+class OButton(QPushButton):
 
     def __init__(self, button_caption: str, button_icon: Icon, action: Callable[[], None] = None) -> None:
-        self.caption = button_caption
+        super().__init__(button_caption)
         self.icon = button_icon
-        self.on_click = action
+        self.create()
+        self.connect(action)
     
-    def create(self) -> QPushButton:
-        """
-        Tworzy QPushButton z ikoną SVG o podanym numerze i etykietą.
-        
-        :param icon: wartosc enuma
-        :param label: tekst etykiety przycisku
-        :return: skonfigurowany QPushButton
-        """
+    def connect(self, action: Callable[[], None]) -> None:
+        if action != None:
+            self.clicked.connect(action)
+    
+    def create(self) -> None:
+
         icon_number = self.icon.value
         icon_const_name = f"ICON{icon_number}"
         svg_data = globals().get(icon_const_name)
@@ -61,6 +60,7 @@ class ButtonGenerator:
             painter.end()
             icon.addPixmap(pixmap, QIcon.Normal)
         
-        button = QPushButton(self.caption)
-        button.setIcon(icon)
-        return button
+        #self.setText(self.caption)
+        self.setStyleSheet("border:0px")
+        self.setIcon(icon)
+        #return self.button

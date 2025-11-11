@@ -1,4 +1,5 @@
 import json
+import shutil
 
 from pathlib import Path
 from typing import List, Dict, Optional
@@ -13,20 +14,17 @@ class Sortopus:
         self.config = config
         self.main_dir = Path(config['main_dir'])
         self.deleted_dir = Path(config['deleted_dir'])
-        self.defer1_dir = Path(config['defer1_dir'])
-        self.defer1_label = config.get('defer1_label', 'Odłóż 1')
-        self.defer2_dir = Path(config['defer2_dir'])
-        self.defer2_label = config.get('defer2_label', 'Odłóż 2')
+        self.actions = config['actions']
 
         # ensure directories exist
-        for d in (self.main_dir, self.deleted_dir, self.defer1_dir, self.defer2_dir):
+        for d in (self.main_dir, self.deleted_dir):
             try:
                 d.mkdir(parents=True, exist_ok=True)
             except Exception:
                 pass
 
         self.list_file = self.main_dir / LIST_FILENAME
-        self.items: List[Dict] = []  # każdy element {'path': str, 'status': int}
+        self.items: List[Dict] = []  # Elements {'path': str, 'status': int}
         self.current_index: Optional[int] = None
 
         self.load_or_create_list()

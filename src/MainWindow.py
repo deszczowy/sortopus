@@ -6,11 +6,19 @@ from PyQt5.QtWidgets import (
     QPushButton,
     QHBoxLayout,
     QVBoxLayout,
+    QShortcut,
 )
-from PyQt5.QtGui import QPixmap, QImage
+
+from PyQt5.QtGui import (
+    QPixmap,
+    QImage,
+    QKeySequence,
+)
+
 from PyQt5.QtCore import Qt
 
 from . import Sortopus
+from . import Button
 
 class MainWindow(QWidget):
     def __init__(self, sorter: Sortopus):
@@ -20,39 +28,45 @@ class MainWindow(QWidget):
         self.image_label = QLabel()
         self.image_label.setAlignment(Qt.AlignCenter)
         self.image_label.setStyleSheet('background-color: #222; color: #fff;')
+        self.info_label = QLabel('')
+        self.info_label.setAlignment(Qt.AlignCenter)
+        self.hint_label = QLabel('')
+        self.hint_label.setAlignment(Qt.AlignCenter)
         self.status_label = QLabel('')
         self.status_label.setAlignment(Qt.AlignCenter)
         self.setStyleSheet('QPushButton{width: 100px; height: 25px; }')
 
         # przyciski
-        self.btn_prev = QPushButton('Previous')
-        self.btn_leave = QPushButton('Leave here')
-        self.btn_defer1 = QPushButton(self.sorter.defer1_label)
-        self.btn_defer2 = QPushButton(self.sorter.defer2_label)
-        self.btn_delete = QPushButton('Delete')
-        self.btn_next = QPushButton('Next')
-
-        self.btn_prev.clicked.connect(self.on_prev)
-        self.btn_leave.clicked.connect(self.on_leave)
-        self.btn_defer1.clicked.connect(self.on_defer1)
-        self.btn_defer2.clicked.connect(self.on_defer2)
-        self.btn_delete.clicked.connect(self.on_delete)
-        self.btn_next.clicked.connect(self.on_next)
-
         btn_layout = QHBoxLayout()
         btn_layout.addStretch()
+
+        self.btn_prev = Button.OButton(99, 'Previous', "", Button.Icon.ICON1, "Show previous picture", self.on_prev, QKeySequence(Qt.Key_Left))
+        self.btn_leave = Button.OButton(99, "Leave here", "", Button.Icon.ICON1,  "Leave photo where it is now", self.on_leave, QKeySequence("Q"))
+
+        
         btn_layout.addWidget(self.btn_prev)
         btn_layout.addWidget(self.btn_leave)
-        btn_layout.addWidget(self.btn_defer1)
-        btn_layout.addWidget(self.btn_defer2)
+
+        id = 0
+        for action in sorter.actions:
+            btn_layout.addWidget(
+                Button.OButton(id, action.label, action.dir, Button.Icon.ICON1, "", self.on_defer_default, QKeySequence("1"))
+            )
+            id += 1
+        
+        self.btn_delete = Button.OButton(99, "Delete", "", Button.Icon.ICON1, "Remove photo", self.on_delete, QKeySequence("Delete"))
+        self.btn_next = Button.OButton(99, "Next", "", Button.Icon.ICON1, "Show next picture", self.on_next, QKeySequence(Qt.Key_Right))
+
         btn_layout.addWidget(self.btn_delete)
         btn_layout.addWidget(self.btn_next)
         btn_layout.addStretch()
 
         layout = QVBoxLayout()
         layout.addWidget(self.image_label, stretch=1)
+        layout.addWidget(self.info_label)
         layout.addWidget(self.status_label)
         layout.addLayout(btn_layout)
+        layout.addWidget(self.hint_label)
 
         self.setLayout(layout)
 
@@ -80,7 +94,7 @@ class MainWindow(QWidget):
         self.update_status_label()
 
     def set_buttons_enabled(self, enabled: bool):
-        for b in (self.btn_prev, self.btn_leave, self.btn_defer1, self.btn_defer2, self.btn_delete, self.btn_next):
+        for b in (self.btn_prev, self.btn_leave): #, self.btn_defer1, self.btn_defer2, self.btn_delete, self.btn_next):
             b.setEnabled(enabled)
 
     def update_image_display(self):
@@ -99,6 +113,7 @@ class MainWindow(QWidget):
                 lbl_h = max(10, self.image_label.height())
                 scaled = pix.scaled(lbl_w, lbl_h, Qt.KeepAspectRatio, Qt.SmoothTransformation)
                 self.image_label.setPixmap(scaled)
+                self.info_label.setText(path.stem)
         else:
             # plik nie istnieje — wyczyść pixmap i napisz info
             self.image_label.setPixmap(QPixmap())
@@ -142,12 +157,10 @@ class MainWindow(QWidget):
         if idx < len(self.sorter.items) - 1:
             self.sorter.current_index = idx + 1
         self.update_ui()
-
-    def on_defer1(self):
-        self.move_and_next(self.sorter.defer1_dir, 2)
-
-    def on_defer2(self):
-        self.move_and_next(self.sorter.defer2_dir, 2)
+    
+    def on_defer_default(self):
+        button: OButton = self.sender()
+        self.move_and_next(button.MovePath, 2)
 
     def on_delete(self):
         # przenieś do katalogu usuniętych i ustaw status 3

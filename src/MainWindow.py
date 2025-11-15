@@ -18,7 +18,8 @@ from PyQt5.QtGui import (
 from PyQt5.QtCore import Qt
 
 from . import Sortopus
-from . import Button
+from .Buttons import OButton, IconEnum
+from . import About
 
 class MainWindow(QWidget):
     def __init__(self, sorter: Sortopus):
@@ -40,8 +41,8 @@ class MainWindow(QWidget):
         btn_layout = QHBoxLayout()
         btn_layout.addStretch()
 
-        self.btn_prev = Button.OButton(99, 'Previous', "", Button.Icon.ICON1, "Show previous picture", self.on_prev, QKeySequence(Qt.Key_Left))
-        self.btn_leave = Button.OButton(99, "Leave here", "", Button.Icon.ICON1,  "Leave photo where it is now", self.on_leave, QKeySequence("Q"))
+        self.btn_prev = OButton(99, 'Previous', "", IconEnum.PREVIOUS, "Show previous picture", self.on_prev, QKeySequence(Qt.Key_Left))
+        self.btn_leave = OButton(99, "Leave here", "", IconEnum.CONFIRM,  "Leave photo where it is now", self.on_leave, QKeySequence("Q"))
 
         
         btn_layout.addWidget(self.btn_prev)
@@ -50,18 +51,26 @@ class MainWindow(QWidget):
         id = 0
         for action in sorter.actions:
             btn_layout.addWidget(
-                Button.OButton(id, action.label, action.dir, Button.Icon.ICON1, "", self.on_defer_default, QKeySequence("1"))
+                OButton(id, action.label, action.dir, IconEnum.OPTION_1, "", self.on_defer_default, QKeySequence("1"))
             )
             id += 1
         
-        self.btn_delete = Button.OButton(99, "Delete", "", Button.Icon.ICON1, "Remove photo", self.on_delete, QKeySequence("Delete"))
-        self.btn_next = Button.OButton(99, "Next", "", Button.Icon.ICON1, "Show next picture", self.on_next, QKeySequence(Qt.Key_Right))
+        self.btn_delete = OButton(99, "Delete", "", IconEnum.REMOVE, "Remove photo", self.on_delete, QKeySequence("Delete"))
+        self.btn_next = OButton(99, "Next", "", IconEnum.NEXT, "Show next picture", self.on_next, QKeySequence(Qt.Key_Right))
 
         btn_layout.addWidget(self.btn_delete)
         btn_layout.addWidget(self.btn_next)
         btn_layout.addStretch()
 
         layout = QVBoxLayout()
+
+        menu = QHBoxLayout()
+        self.btn_about = QPushButton("?")
+        self.btn_about.clicked.connect(self.on_show_clicked)
+        menu.addWidget(self.btn_about)
+        menu.addStretch()
+
+        layout.addLayout(menu)
         layout.addWidget(self.image_label, stretch=1)
         layout.addWidget(self.info_label)
         layout.addWidget(self.status_label)
@@ -169,3 +178,8 @@ class MainWindow(QWidget):
     def on_next(self):
         self.sorter.go_to_next()
         self.update_ui()
+
+    def on_show_clicked(self):
+        # self odnosi się do rodzica (np. w metodzie klasy dziedziczącej QWidget)
+        self.about = About.OAbout()
+        self.about.show()

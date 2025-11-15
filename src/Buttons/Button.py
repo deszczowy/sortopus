@@ -1,37 +1,20 @@
+# System
+from typing import Callable
+from pathlib import Path
+
+# PyQt
 from PyQt5.QtWidgets import QPushButton, QShortcut
 from PyQt5.QtGui import QIcon, QPixmap, QPainter, QKeySequence
 from PyQt5.QtCore import QByteArray, Qt
 from PyQt5.QtSvg import QSvgRenderer
-from enum import IntEnum
-from typing import Callable
-from pathlib import Path
 
-class Icon(IntEnum):
-    ICON1 = 1
-    ICON2 = 2
-    ICON3 = 3
-
-ICON1 = """<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<svg
-   width="1cm"
-   height="1cm"
-   viewBox="0 0 1 1"
-   version="1.1"
-   id="icon1"
-   xmlns="http://www.w3.org/2000/svg">
-
-    <ellipse
-       style="fill:#ff0000;stroke-width:0.359792"
-       id="path263"
-       cx="0.5"
-       cy="0.5"
-       rx="0.5"
-       ry="0.5" />
-</svg>"""
+# Module
+from .IconEnum import IconEnum
+from .Icons import *
 
 class OButton(QPushButton):
 
-    def __init__(self, id: int, button_caption: str, parameter_path: str, button_icon: Icon, hint: str = "", action: Callable[[], None] = None, shortcut: QKeySequence = None) -> None:
+    def __init__(self, id: int, button_caption: str, parameter_path: str, button_icon: IconEnum, hint: str = "", action: Callable[[], None] = None, shortcut: QKeySequence = None) -> None:
         super().__init__(f" {button_caption}")
         self.Id = id
         self.MovePath: Path = Path(parameter_path)
@@ -51,8 +34,7 @@ class OButton(QPushButton):
     
     def create(self) -> None:
 
-        icon_number = self.icon.value
-        icon_const_name = f"ICON{icon_number}"
+        icon_const_name = self.icon.name
         svg_data = globals().get(icon_const_name)
         if svg_data is None:
             raise ValueError(f"Ikona o numerze {icon_number} nie istnieje w module icons.py")

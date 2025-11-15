@@ -9,6 +9,6 @@
    xmlns:svg="http://www.w3.org/2000/svg">
 
   <path
-     style="fill:#ff8080;stroke:none;stroke-width:0.1"
+     style="fill:{@color};stroke:none;stroke-width:0.1"
      d="M 13.301704,25 0,15 25,0 Z" />
 </svg>

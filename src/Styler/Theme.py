@@ -9,7 +9,7 @@ class OTheme:
         self.Text = "#AAAAAA"
 
     def load(self):
-        filename = f"{self.Name}.theme"
+        filename = f"./themes/{self.Name}.theme"
         if not os.path.isfile(filename):
             raise FileNotFoundError(f"File not found: {filename}")
 

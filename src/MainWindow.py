@@ -19,6 +19,7 @@ from PyQt5.QtCore import Qt
 
 from . import Sortopus
 from .Buttons import OButton, IconEnum
+from .Styler import OStyler
 from . import About
 
 class MainWindow(QWidget):
@@ -26,16 +27,20 @@ class MainWindow(QWidget):
         super().__init__()
         self.sorter = sorter
         self.setWindowTitle('Sortopus')
+
+        styler = OStyler()
+        self.setStyleSheet(styler.get("solarized"))
+
         self.image_label = QLabel()
+        self.image_label.setObjectName("Image")
         self.image_label.setAlignment(Qt.AlignCenter)
-        self.image_label.setStyleSheet('background-color: #222; color: #fff;')
+        
         self.info_label = QLabel('')
         self.info_label.setAlignment(Qt.AlignCenter)
         self.hint_label = QLabel('')
         self.hint_label.setAlignment(Qt.AlignCenter)
         self.status_label = QLabel('')
         self.status_label.setAlignment(Qt.AlignCenter)
-        self.setStyleSheet('QPushButton{width: 100px; height: 25px; }')
 
         # przyciski
         btn_layout = QHBoxLayout()

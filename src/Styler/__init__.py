@@ -1,3 +1,3 @@
-from .Catalog import OCatalog
+from .Styler import OStyler
 
-__all__ = ["OCatalog"]
+__all__ = ["OStyler"]

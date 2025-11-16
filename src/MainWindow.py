@@ -55,6 +55,9 @@ class MainWindow(QWidget):
 
         id = 0
         for action in sorter.actions:
+            if action.dir == "":
+                continue
+
             btn_layout.addWidget(
                 OButton(id, action.label, action.dir, IconEnum.OPTION_1, styler.Foreground, "", self.on_defer_default, QKeySequence("1"))
             )

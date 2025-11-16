@@ -20,6 +20,7 @@ from PyQt5.QtCore import Qt
 from . import Sortopus
 from .Buttons import OButton, IconEnum
 from .Styler import OStyler
+from .Settings import OSettings
 from . import About
 
 class MainWindow(QWidget):
@@ -75,7 +76,10 @@ class MainWindow(QWidget):
         menu = QHBoxLayout()
         self.btn_about = QPushButton("?")
         self.btn_about.clicked.connect(self.on_show_clicked)
+        self.btn_settings = QPushButton("S")
+        self.btn_settings.clicked.connect(self.on_settings_clicked)
         menu.addWidget(self.btn_about)
+        menu.addWidget(self.btn_settings)
         menu.addStretch()
 
         layout.addLayout(menu)
@@ -191,3 +195,7 @@ class MainWindow(QWidget):
         # self odnosi się do rodzica (np. w metodzie klasy dziedziczącej QWidget)
         self.about = About.OAbout()
         self.about.show()
+    
+    def on_settings_clicked(self):
+        self.settings = OSettings()
+        self.settings.show()

@@ -1,5 +1,5 @@
 # The Sortopus: Unstoppable photos sorting machine!
-<img align="right" src="src/gfx/octo.png" width="150"> version 0.03
+<img align="right" src="src/gfx/octo.png" width="150"> version 0.04
 
 The weapon of choice for everyone who is flooded with photos. Gather all files, configure the tool, then make yourself comfortable and just sort it out. It is early version, so go easy on me. It works, that's important! Application will present You all your pictures, one by one, each with options to leave it where it is, delete it, or move into one of two optional directories.
 

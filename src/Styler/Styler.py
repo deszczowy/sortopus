@@ -3,19 +3,21 @@ from .Theme import OTheme
 
 class OStyler:
 
+    Theme = None
+
     def get(self, theme_name: str) -> str:
 
-        theme = OTheme(theme_name)
-        theme.load()
+        self.Theme = OTheme(theme_name)
+        self.Theme.load()
 
-        if theme is None:
+        if self.Theme is None:
             raise ValueError("Theme cannot be None.")
 
         # Słownik mapujący placeholdery na wartości z OTheme
         replacements = {
-            "{@color}": theme.Foreground,
-            "{@back}": theme.Background,
-            "{@text}": theme.Text,
+            "{@color}": self.Theme.Foreground,
+            "{@back}": self.Theme.Background,
+            "{@text}": self.Theme.Text,
         }
 
         result = STYLE
@@ -23,3 +25,7 @@ class OStyler:
             result = result.replace(placeholder, value)
 
         return result
+    
+    @property
+    def Foreground(self) -> str:
+        return self.Theme.Foreground

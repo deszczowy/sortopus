@@ -46,8 +46,8 @@ class MainWindow(QWidget):
         btn_layout = QHBoxLayout()
         btn_layout.addStretch()
 
-        self.btn_prev = OButton(99, 'Previous', "", IconEnum.PREVIOUS, "Show previous picture", self.on_prev, QKeySequence(Qt.Key_Left))
-        self.btn_leave = OButton(99, "Leave here", "", IconEnum.CONFIRM,  "Leave photo where it is now", self.on_leave, QKeySequence("Q"))
+        self.btn_prev = OButton(99, "", "", IconEnum.PREVIOUS, styler.Foreground, "Show previous picture", self.on_prev, QKeySequence(Qt.Key_Left))
+        self.btn_leave = OButton(99, "Leave here", "", IconEnum.CONFIRM, styler.Foreground, "Leave photo where it is now", self.on_leave, QKeySequence("Q"))
 
         
         btn_layout.addWidget(self.btn_prev)
@@ -56,12 +56,12 @@ class MainWindow(QWidget):
         id = 0
         for action in sorter.actions:
             btn_layout.addWidget(
-                OButton(id, action.label, action.dir, IconEnum.OPTION_1, "", self.on_defer_default, QKeySequence("1"))
+                OButton(id, action.label, action.dir, IconEnum.OPTION_1, styler.Foreground, "", self.on_defer_default, QKeySequence("1"))
             )
             id += 1
         
-        self.btn_delete = OButton(99, "Delete", "", IconEnum.REMOVE, "Remove photo", self.on_delete, QKeySequence("Delete"))
-        self.btn_next = OButton(99, "Next", "", IconEnum.NEXT, "Show next picture", self.on_next, QKeySequence(Qt.Key_Right))
+        self.btn_delete = OButton(99, "Delete", "", IconEnum.REMOVE, styler.Foreground, "Remove photo", self.on_delete, QKeySequence("Delete"))
+        self.btn_next = OButton(99, "", "", IconEnum.NEXT, styler.Foreground, "Show next picture", self.on_next, QKeySequence(Qt.Key_Right))
 
         btn_layout.addWidget(self.btn_delete)
         btn_layout.addWidget(self.btn_next)

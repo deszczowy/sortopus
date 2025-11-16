@@ -13,4 +13,9 @@ QPushButton {
 #Image {
     background-color: {@back};
 }
+
+#ActionButton {
+    padding: 10px;
+    height: 50px;
+}
 """

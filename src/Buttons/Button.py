@@ -4,8 +4,8 @@ from pathlib import Path
 
 # PyQt
 from PyQt5.QtWidgets import QPushButton, QShortcut
-from PyQt5.QtGui import QIcon, QPixmap, QPainter, QKeySequence
-from PyQt5.QtCore import QByteArray, Qt
+from PyQt5.QtGui import QIcon, QPixmap, QPainter, QKeySequence, QCursor
+from PyQt5.QtCore import QByteArray, Qt, QSize
 from PyQt5.QtSvg import QSvgRenderer
 
 # Module
@@ -14,15 +14,17 @@ from .Icons import *
 
 class OButton(QPushButton):
 
-    def __init__(self, id: int, button_caption: str, parameter_path: str, button_icon: IconEnum, hint: str = "", action: Callable[[], None] = None, shortcut: QKeySequence = None) -> None:
+    def __init__(self, id: int, button_caption: str, parameter_path: str, button_icon: IconEnum, color: str, hint: str = "", action: Callable[[], None] = None, shortcut: QKeySequence = None) -> None:
         super().__init__(f" {button_caption}")
         self.Id = id
         self.MovePath: Path = Path(parameter_path)
         self.icon = button_icon
         self.shortcut = None
         self.setup_hint(hint)
-        self.create()
+        self.create(color)
         self.connect(action, shortcut)
+        self.setCursor(QCursor(Qt.PointingHandCursor))
+        self.setObjectName("ActionButton")
     
     def connect(self, action: Callable[[], None], shortcut_sequence: QKeySequence = None) -> None:
         if action != None:
@@ -32,13 +34,14 @@ class OButton(QPushButton):
                 self.shortcut = QShortcut(shortcut_sequence, self)
                 self.shortcut.activated.connect(action)
     
-    def create(self) -> None:
+    def create(self, color: str) -> None:
 
         icon_const_name = self.icon.name
         svg_data = globals().get(icon_const_name)
         if svg_data is None:
             raise ValueError(f"Ikona o numerze {icon_number} nie istnieje w module icons.py")
         
+        svg_data = svg_data.replace("{@color}", color)
         byte_array = QByteArray(svg_data.encode('utf-8'))
         renderer = QSvgRenderer(byte_array)
         
@@ -51,8 +54,8 @@ class OButton(QPushButton):
             painter.end()
             icon.addPixmap(pixmap, QIcon.Normal)
 
-        self.setStyleSheet("border:0px")
         self.setIcon(icon)
+        self.setIconSize(QSize(50, 50)) 
     
     def setup_hint(self, hint):
         self.hint = ""

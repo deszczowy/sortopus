@@ -24,7 +24,7 @@ Create a config file named `config.json` next to `sortopus.py` and fill it befor
 
 ### Rest is optional
 
-Define `actions` list if You want other options for moving files. Every `actions` element is an object with path to move photos (`dir`) and a label (`label`) for custom button.
+Define `actions` list if You want other options for moving files. Every `actions` element is an object with path to move photos (`dir`) and a label (`label`) for custom button. Button will be visible only if `dir` is provided. 
 
 ## How it works
 
@@ -34,7 +34,7 @@ Program will read root path recursively looking for `*.jpg` files. All necessary
 
 `Q` for leave photo where it is
 
-`1`, `2`, `3` for moving photo into one of configured places
+`1`, `2`, `3`, `4` for moving photo into one of configured places
 
 `Delete` sounds selfexplanatory
 

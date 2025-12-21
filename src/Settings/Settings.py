@@ -2,8 +2,9 @@ from PyQt5.QtWidgets import QApplication, QDialog, QVBoxLayout, QLabel, QPushBut
 
 from .Directory import ODirectoryField
 from .Color import OColorField
+from src.Core import OWidget
 
-class OSettings(QDialog):
+class OSettings(OWidget):
     def __init__(self, parent=None):
         super().__init__(parent)
         self.setWindowTitle("Settings")

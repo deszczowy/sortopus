@@ -1,17 +1,11 @@
-from PyQt5.QtWidgets import QWidget, QLabel, QPushButton, QVBoxLayout
+from PyQt5.QtWidgets import QLabel, QPushButton, QVBoxLayout
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QPixmap
 
+from .Core import OWidget
 
-class OAbout(QWidget):
-    """
-    Widget zawierający (od góry):
-    - obrazek ze wskazanej ścieżki,
-    - QLabel (np. tytuł),
-    - tekst wieloliniowy (QLabel z wordWrap),
-    - przycisk zamykający okienko.
-    Wszystko wycentrowane.
-    """
+class OAbout(OWidget):
+
     def __init__(self, parent=None):
         super().__init__(parent)
 
@@ -20,7 +14,6 @@ class OAbout(QWidget):
 
         self.setWindowTitle("About Sortopus")
         self.setGeometry(0,0,100,200)
-        print("test")
 
         multiline_text = """The weapon of choice for everyone who is flooded with photos. Gather all files, configure the tool, then make yourself comfortable and just sort it out. It is early version, so go easy on me. It works, that's important! Application will present You all your pictures, one by one, each with options to leave it where it is, delete it, or move into one of two optional directories."""
         

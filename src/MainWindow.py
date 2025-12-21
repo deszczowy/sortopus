@@ -21,13 +21,15 @@ from . import Sortopus
 from .Buttons import OButton, IconEnum
 from .Styler import OStyler
 from .Settings import OSettings
-from . import About
+from .About import OAbout
+from .Core import OWidget
 
-class MainWindow(QWidget):
+class MainWindow(OWidget):
     def __init__(self, sorter: Sortopus):
         super().__init__()
         self.sorter = sorter
         self.setWindowTitle('Sortopus')
+        
 
         styler = OStyler()
         self.setStyleSheet(styler.get("solarized"))
@@ -89,6 +91,8 @@ class MainWindow(QWidget):
         layout.addLayout(btn_layout)
         layout.addWidget(self.hint_label)
 
+        layout.setContentsMargins(0, 0, 0, 0)
+        layout.setSpacing(0)
         self.setLayout(layout)
 
         self.update_ui()
@@ -193,9 +197,11 @@ class MainWindow(QWidget):
 
     def on_show_clicked(self):
         # self odnosi się do rodzica (np. w metodzie klasy dziedziczącej QWidget)
-        self.about = About.OAbout()
+        self.about = OAbout()
         self.about.show()
+        self.about.center()
     
     def on_settings_clicked(self):
         self.settings = OSettings()
         self.settings.show()
+        self.settings.center()

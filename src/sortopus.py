@@ -42,6 +42,7 @@ def main():
     window = MainWindow.MainWindow(sorter)
     window.resize(1000, 700)
     window.show()
+    window.center()
 
     sys.exit(app.exec_())
 

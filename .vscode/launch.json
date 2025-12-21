@@ -9,7 +9,7 @@
             "name": "Go Sortopus!",
             "type": "debugpy",
             "request": "launch",
-            "program": "${workspaceFolder}/sortopus.py",
+            "module": "src.sortopus",
             "cwd":"${workspaceFolder}",
             "console": "integratedTerminal"
         }
